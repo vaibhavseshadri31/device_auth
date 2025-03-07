@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Email Authentication</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-box">
+            <h1>Secure Email Authentication</h1>
+            <div id="emailForm">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <button id="verifyBtn" class="btn-primary">Verify with Biometrics</button>
+                <div id="status" class="status"></div>
+            </div>
+            <div id="successMessage" class="success-message hidden">
+                <img src="static/check.svg" alt="Success" class="success-icon">
+                <h2>Authentication Successful</h2>
+                <p>Your email has been securely verified and submitted.</p>
+            </div>
+        </div>
+    </div>
+    <script src="static/script.js"></script>
+</body>
+</html>
