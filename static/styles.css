@@ -124,3 +124,29 @@ input:focus {
 .hidden {
     display: none;
 }
+
+.btn {
+    background-color: #5cb85c;  
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.btn:hover {
+    background-color: #4cae4c;
+}
+
+.btn:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+#registerDeviceBtn {
+    margin-top: 10px;
+}

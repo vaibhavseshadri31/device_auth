@@ -5,6 +5,47 @@ document.addEventListener('DOMContentLoaded', function () {
     const emailForm = document.getElementById('emailForm');
     const successMessage = document.getElementById('successMessage');
 
+    // Add UI elements for device registration
+    const registerDeviceBtn = document.createElement('button');
+    registerDeviceBtn.textContent = 'Register This Device';
+    registerDeviceBtn.className = 'btn';
+    registerDeviceBtn.id = 'registerDeviceBtn';
+    emailForm.appendChild(registerDeviceBtn);
+    
+    // Move the status div to appear after the buttons
+    emailForm.appendChild(statusDiv);
+    
+    registerDeviceBtn.addEventListener('click', async function() {
+        const email = emailInput.value.trim();
+        
+        if (!email || !validateEmail(email)) {
+            updateStatus('Please enter a valid email address.', 'error');
+            return;
+        }
+        
+        try {
+            updateStatus('Registering device...', 'info');
+            
+            const response = await fetch('/api/register-device', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email }),
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                localStorage.setItem('device_id', data.deviceId);
+                updateStatus(`Device registered successfully! You can now verify.`, 'success');
+            } else {
+                updateStatus(data.message || 'Registration failed', 'error');
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
+            updateStatus(`Registration failed: ${error.message || 'Unknown error'}`, 'error');
+        }
+    });
+
     verifyBtn.addEventListener('click', async function () {
         const email = emailInput.value.trim();
 
@@ -73,7 +114,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 throw new Error('Platform authenticator is not available.');
             }
 
-            // Generate ephemeral WebAuthn authentication
             const challenge = new Uint8Array(32);
             window.crypto.getRandomValues(challenge);
             
@@ -133,10 +173,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return re.test(String(email).toLowerCase());
     }
 
-
-    function generateDeviceId() {
-        return `device_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
-    }
 
     function updateStatus(message, type) {
         statusDiv.textContent = message;
