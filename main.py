@@ -25,6 +25,7 @@ app.add_middleware(
 # Functions to interact with database.json
 def load_trusted_devices():
     try:
+
         with open("database.json", "r") as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
@@ -34,7 +35,7 @@ def save_trusted_devices(devices):
     with open("database.json", "w") as f:
         json.dump(devices, f, indent=4)
 
-# Initialize database
+# Initialize database from database.json, in production this will be a real database
 trusted_devices = load_trusted_devices()
 
 class EmailSubmission(BaseModel):
